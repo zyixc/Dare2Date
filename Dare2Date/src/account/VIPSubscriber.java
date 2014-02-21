@@ -1,16 +1,30 @@
 package account;
 
-import actions.VIPActions;
 
 public class VIPSubscriber extends Subscriber {
 
-	public VIPSubscriber(){
-		userActions = new VIPActions();
+	public VIPSubscriber(String email, String password){
+		super(email, password);
 	}
 	
 	@Override
-	public void displayProfile() {
-		// TODO Auto-generated method stub
+	public void viewProfile() {
+		System.out.println("I am a VIP");
+		
+	}
+	
+	//Set update preferences
+	public void setUpdatePreferences(){
+		
+	}
+	
+	//Set preference keywords
+	public void setPreferenceKeywords(){
+		
+	}
+	
+	//Receive update on profiles
+	public void receiveUpdates(){
 		
 	}
 	

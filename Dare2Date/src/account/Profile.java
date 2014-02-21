@@ -1,28 +1,49 @@
 package account;
 
-import matchmaking.MatchmakingOptions;
-import actions.UserActions;
 
 public abstract class Profile {
 	
-	//Interfaces
-	UserActions userActions;
+	protected String email;
+	protected String password;
 	
-	
-	//Constructor
-	public Profile(){
+	public String getEmail() {
+		return email;
 	}
-	
-	public abstract void displayProfile();
-	
-	//Call action available for the user
-	public void performActions(){
-		userActions.perform();
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
-	
-	//Call matchmaking available for the user
-	public void matchMakingService(MatchmakingOptions matchMakingOption, Profile profile){
-		matchMakingOption.match(profile);
+
+	public String getPassword() {
+		return password;
 	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	//View Profile
+	public abstract void viewProfile();
+	
+	//Search profile
+	public abstract void searchProfile();
+	
+	//Send message
+	public abstract void sendMessage();
+	
+	//Receive message
+	public abstract void receiveMessage();
+	
+	//Chat
+	public abstract void chat();
+	
+	//Add Picture
+	public abstract void addPicture();
+	
+	//View Picture
+	public abstract void viewPicture();
+	
+	//Update profile text
+	public abstract void updateText();	
 	
 }
