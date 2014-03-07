@@ -1,30 +1,42 @@
 package execution;
 
-import account.CreateAccount;
+import java.util.ArrayList;
+
+import global.GlobalVariables;
 import account.Profile;
+
 
 public class test {
 
 	/**
 	 * @param args
 	 */
+	
+	
 	public static void main(String[] args) {
 		
-		CreateAccount createAccount = new CreateAccount();
+		GlobalVariables mVariables = GlobalVariables.getInstance();
 		
-		String test = "test";
-		String password = "1234";
+		Profile visitor = mVariables.getCreateAccount().generateVisitorProfile();
 		
-		Profile visitor = createAccount.generateVisitorProfile();
-		Profile subscriber = createAccount.generateSubscriberProfile(test, password);
-		Profile vip = createAccount.generateVIPSubscriberProfile(test, password);
+		mVariables.setCurrentUser(visitor);
+		
+		visitor.viewProfile();
+		
+		visitor = mVariables.getCreateAccount().upgradeProfile(visitor, "gigi", "1234");
 
 		visitor.viewProfile();
-		subscriber.viewProfile();
-		vip.viewProfile();
+		mVariables.addUserToList(visitor);
 		
-		visitor.viewPicture();
+		visitor = mVariables.getCreateAccount().upgradeProfile(visitor, "gigi", "1234");
 		
+		visitor.viewProfile();
+		
+		ArrayList<Profile> userList = mVariables.getUserList();
+		
+		userList.get(0).viewProfile();
 	}
+	
+
 
 }

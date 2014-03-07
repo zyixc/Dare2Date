@@ -7,7 +7,7 @@ import chat.Message;
 
 public class Subscriber extends Profile {
 
-	protected String fristName;
+	protected String firstName;
 	protected String lastName;
 	protected Calendar dateOfBirth;
 	protected String gender;
@@ -25,13 +25,13 @@ public class Subscriber extends Profile {
 	}
 	
 
-	public String getFristName() {
-		return fristName;
+	public String getfirstName() {
+		return firstName;
 	}
 
 
-	public void setFristName(String fristName) {
-		this.fristName = fristName;
+	public void setfirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
 
@@ -138,6 +138,7 @@ public class Subscriber extends Profile {
 	@Override
 	public void viewProfile() {
 		System.out.println("I am a subscriber");
+		
 		
 	}
 

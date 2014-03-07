@@ -31,6 +31,10 @@ public class GlobalVariables {
 	public Profile getCurrentUser() {
 		return currentUser;
 	}
+	
+	public void setCurrentUser(Profile currentUser){
+		this.currentUser = currentUser;
+	}
 
 	public ArrayList<Profile> getUserList() {
 		return userList;
@@ -45,7 +49,13 @@ public class GlobalVariables {
 	}
 
 	public ArrayList<Profile> generateUsers(){
+		ArrayList<Profile> userList = new ArrayList<Profile>();
+		
 		return userList;
+	}
+	
+	public void addUserToList(Profile profile){
+		userList.add(profile);
 	}
 	
 }

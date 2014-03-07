@@ -7,35 +7,53 @@ public class CreateAccount {
 	}
 	
 	//Checks credit card credentials
-	public void checkCreditCard(){
+	public boolean checkCreditCard(int cardNumber, String expireDate, int ccv){
+		
+		if(cardNumber != 0 && expireDate != null && ccv != 0){
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+		
 	}
 	
 	//Upgrades account from visitor to subscriber or from subscriber to vip
-	public Profile upgradeProfile(Profile profile){
+	public Profile upgradeProfile(Profile profile, String email, String password){
 		Profile upgradedProfile = null;
+		
+		if(profile instanceof Visitor){
+			upgradedProfile = generateSubscriberProfile(email, password);
+		}
+		else if(profile instanceof Subscriber){
+			upgradedProfile = generateVIPSubscriberProfile((Subscriber)profile);
+		}
+		
 		return upgradedProfile;
+		
 	}
 	
 	//Generates a profile based on choice
-	public Profile generateVisitorProfile(){
+	public Visitor generateVisitorProfile(){
 		
-		Profile username1 = null;
-		username1 = new Visitor();
+		Visitor email1 = null;
+		email1 = new Visitor();
 		
-		return username1;
+		return email1;
 	}
 
-	public Profile generateSubscriberProfile(String username ,String password){
-		Profile username1 = null;
-		username1 = new Subscriber(username, password);
+	public Subscriber generateSubscriberProfile(String email ,String password){
+		Subscriber email1 = null;
+		email1 = new Subscriber(email, password);
 		
-		return username1;
+		return email1;
 	}
 	
-	public Profile generateVIPSubscriberProfile(String username ,String password){
-		Profile username1 = null;
-		username1 = new VIPSubscriber(username, password);
+	public VIPSubscriber generateVIPSubscriberProfile(Subscriber profile){
+		VIPSubscriber email1 = null;
+		email1 = new VIPSubscriber(profile);
 		
-		return username1;
+		return email1;
 	}
 }
