@@ -1,9 +1,10 @@
 package execution;
 
+import global.GlobalVariables;
+
 import java.util.ArrayList;
 
-import global.GlobalVariables;
-import account.Profile;
+import account.VIPSubscriber;
 
 
 public class test {
@@ -17,24 +18,16 @@ public class test {
 		
 		GlobalVariables mVariables = GlobalVariables.getInstance();
 		
-		Profile visitor = mVariables.getCreateAccount().generateVisitorProfile();
+		ArrayList<VIPSubscriber> subscriberList = mVariables.getVipList();
 		
-		mVariables.setCurrentUser(visitor);
+		for(int i = 0; i < subscriberList.size(); i++){
+			System.out.println(subscriberList.get(i).getFirstName() + " " + subscriberList.get(i).getLastName());
+			System.out.println(subscriberList.get(i).getEducation() + " " + subscriberList.get(i).getGender());
+			System.out.println(subscriberList.get(i).getInterests().get(0) + " " + subscriberList.get(i).getInterests().get(1));
+			System.out.println(subscriberList.get(i).getEmail()+ " " +subscriberList.get(i).getPassword());
+			System.out.println();
+		}
 		
-		visitor.viewProfile();
-		
-		visitor = mVariables.getCreateAccount().upgradeProfile(visitor, "gigi", "1234");
-
-		visitor.viewProfile();
-		mVariables.addUserToList(visitor);
-		
-		visitor = mVariables.getCreateAccount().upgradeProfile(visitor, "gigi", "1234");
-		
-		visitor.viewProfile();
-		
-		ArrayList<Profile> userList = mVariables.getUserList();
-		
-		userList.get(0).viewProfile();
 	}
 	
 

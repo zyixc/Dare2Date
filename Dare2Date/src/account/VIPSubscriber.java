@@ -1,7 +1,7 @@
 package account;
 
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import chat.Message;
 
@@ -10,7 +10,7 @@ public class VIPSubscriber extends Subscriber {
 
 	protected String firstName;
 	protected String lastName;
-	protected Calendar dateOfBirth;
+	protected GregorianCalendar dateOfBirth;
 	protected String gender;
 	protected String sexualPreference;
 	protected String city;
@@ -55,5 +55,95 @@ public class VIPSubscriber extends Subscriber {
 	public void receiveUpdates(){
 		
 	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public GregorianCalendar getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+	public void setDateOfBirth(GregorianCalendar dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public String getSexualPreference() {
+		return sexualPreference;
+	}
+
+	public void setSexualPreference(String sexualPreference) {
+		this.sexualPreference = sexualPreference;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getEducation() {
+		return education;
+	}
+
+	public void setEducation(String education) {
+		this.education = education;
+	}
+
+	public ArrayList<String> getInterests() {
+		return interests;
+	}
+
+	public void setInterests(ArrayList<String> interests) {
+		this.interests = interests;
+	}
+
+	public String getHobies() {
+		return hobies;
+	}
+
+	public void setHobies(String hobies) {
+		this.hobies = hobies;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public ArrayList<Message> getInbox() {
+		return inbox;
+	}
+
+	public void setInbox(ArrayList<Message> inbox) {
+		this.inbox = inbox;
+	}
+	
+	
 	
 }

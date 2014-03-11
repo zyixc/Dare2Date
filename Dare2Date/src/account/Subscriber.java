@@ -1,7 +1,7 @@
 package account;
 
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import chat.Message;
 
@@ -9,7 +9,7 @@ public class Subscriber extends Profile {
 
 	protected String firstName;
 	protected String lastName;
-	protected Calendar dateOfBirth;
+	protected GregorianCalendar dateOfBirth;
 	protected String gender;
 	protected String sexualPreference;
 	protected String city;
@@ -45,12 +45,12 @@ public class Subscriber extends Profile {
 	}
 
 
-	public Calendar getDateOfBirth() {
+	public GregorianCalendar getDateOfBirth() {
 		return dateOfBirth;
 	}
 
 
-	public void setDateOfBirth(Calendar dateOfBirth) {
+	public void setDateOfBirth(GregorianCalendar dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
 
@@ -104,6 +104,9 @@ public class Subscriber extends Profile {
 		interests.add(interest);
 	}
 
+	public void setInterests(ArrayList<String> interests){
+		this.interests = interests;
+	}
 
 	public String getHobies() {
 		return hobies;
