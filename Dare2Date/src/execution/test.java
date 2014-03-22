@@ -12,8 +12,6 @@ public class test {
 	/**
 	 * @param args
 	 */
-	
-	
 	public static void main(String[] args) {
 		
 		GlobalVariables mVariables = GlobalVariables.getInstance();
@@ -29,7 +27,5 @@ public class test {
 		}
 		
 	}
-	
-
 
 }

@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTabbedPane;
-import javax.swing.SwingUtilities;
+
 
 public class ChatWindow extends JPanel {
 	private JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
@@ -46,9 +46,8 @@ public class ChatWindow extends JPanel {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
 				if(arg0.getKeyCode() == KeyEvent.VK_ENTER){
-					final String message = buildMessage(username,textField.getText());
+					String message = buildMessage(username,textField.getText());
 					textArea.append(message);
-					textArea.repaint();
 					textField.setText("");
 				}
 			}
