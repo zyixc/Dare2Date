@@ -49,6 +49,7 @@ public class ChatWindow extends JPanel {
 					String message = buildMessage(username,textField.getText());
 					textArea.append(message);
 					textField.setText("");
+					textArea.repaint();
 				}
 			}
 		});
