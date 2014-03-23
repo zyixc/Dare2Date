@@ -1,5 +1,6 @@
 package gui;
 
+import global.GeneratedUsers;
 import global.GlobalVariables;
 
 import java.awt.BorderLayout;
@@ -15,6 +16,7 @@ import java.awt.Insets;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
@@ -24,9 +26,12 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
 import account.Subscriber;
+import account.VIPSubscriber;
 
 import java.awt.Panel;
 import java.awt.FlowLayout;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class CenterWindow extends JPanel {
 
@@ -174,53 +179,65 @@ public class CenterWindow extends JPanel {
 		gbl_panelSearch.rowWeights = new double[]{1.0,1.0,1.0,1.0,1.0};
 		panelSearch.setLayout(gbl_panelSearch);
 		
-		JPanel panelResult = new JPanel();
-		GridBagConstraints gbc_panelResult = new GridBagConstraints();
-        gbc_panelResult.insets = new Insets(0, 0, 5, 0);
-        gbc_panelResult.gridx = 0;
-        gbc_panelResult.gridy = 0;
-        gbc_panelResult.fill = GridBagConstraints.BOTH;
-        panelSearch.add(panelResult, gbc_panelResult);
-        
-        GridBagLayout gbl_panelResult = new GridBagLayout();
-		gbl_panelResult.columnWidths = new int[]{0, 0, 0};
-		gbl_panelResult.rowHeights = new int[] {0};
-		gbl_panelResult.columnWeights = new double[]{1.0,1.0,1.0};
-		gbl_panelResult.rowWeights = new double[]{1.0};
-		panelResult.setLayout(gbl_panelResult);
+		//Start user loading
+		ArrayList<VIPSubscriber> vipList = GeneratedUsers.generateRandomVIP();
+		int i = 0;
+		for(VIPSubscriber temp: vipList){
+					
+			JPanel panelResult = new JPanel();
+			GridBagConstraints gbc_panelResult = new GridBagConstraints();
+			gbc_panelResult.insets = new Insets(0, 0, 5, 0);
+			gbc_panelResult.gridx = 0;
+			gbc_panelResult.gridy = i;
+			i++;
+			gbc_panelResult.fill = GridBagConstraints.BOTH;
+			panelSearch.add(panelResult, gbc_panelResult);
+			
+			GridBagLayout gbl_panelResult = new GridBagLayout();
+			gbl_panelResult.columnWidths = new int[]{0, 0, 0};
+			gbl_panelResult.rowHeights = new int[] {0};
+			gbl_panelResult.columnWeights = new double[]{1.0,1.0,1.0};
+			gbl_panelResult.rowWeights = new double[]{1.0};
+			panelResult.setLayout(gbl_panelResult);
 		
-		final BufferedImage image;
-		try {
-			image = ImageIO.read(new File("/home/zyixc/git/Dare2Date/Dare2Date/src/gui/questionmark.jpg"));
-			JPanel picturePanel = new JPanel(){
-	            @Override
-	            protected void paintComponent(Graphics g) {
-	                super.paintComponent(g);
-	                g.drawImage(image, 0, 0, 100, 100, null);
-	            }
-	        };
-	        picturePanel.setPreferredSize(new Dimension(100,100));
-	        GridBagConstraints gbc_picturePanel = new GridBagConstraints();
-	        gbc_picturePanel.insets = new Insets(0, 0, 0, 5);
-	        gbc_picturePanel.gridx = 0;
-	        gbc_picturePanel.gridy = 0;
-	        panelResult.add(picturePanel, gbc_picturePanel);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			final BufferedImage image;
+			try {
+				image = ImageIO.read(new File("/home/zyixc/git/Dare2Date/Dare2Date/src/gui/questionmark.jpg"));
+				JPanel picturePanel = new JPanel(){
+					@Override
+					protected void paintComponent(Graphics g) {
+						super.paintComponent(g);
+						g.drawImage(image, 0, 0, 100, 100, null);
+					}
+				};
+				picturePanel.setPreferredSize(new Dimension(100,100));
+				GridBagConstraints gbc_picturePanel = new GridBagConstraints();
+				gbc_picturePanel.insets = new Insets(0, 0, 0, 5);
+				gbc_picturePanel.gridx = 0;
+				gbc_picturePanel.gridy = 0;
+				panelResult.add(picturePanel, gbc_picturePanel);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
-		JLabel name = new JLabel("name");
-		GridBagConstraints gbc_name = new GridBagConstraints();
-		gbc_name.insets = new Insets(0, 0, 0, 5);
-		gbc_name.gridx = 1;
-		gbc_name.gridy = 0;
-		panelResult.add(name, gbc_name);
-		JButton viewButton = new JButton("view");
-		GridBagConstraints gbc_viewButton = new GridBagConstraints();
-		gbc_viewButton.gridx = 2;
-		gbc_viewButton.gridy = 0;
-		panelResult.add(viewButton, gbc_viewButton);
+			JLabel name = new JLabel(temp.getFirstName());
+			GridBagConstraints gbc_name = new GridBagConstraints();
+			gbc_name.insets = new Insets(0, 0, 0, 5);
+			gbc_name.gridx = 1;
+			gbc_name.gridy = 0;
+			panelResult.add(name, gbc_name);
+			JButton viewButton = new JButton("view");
+			viewButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					
+				}
+			});
+			GridBagConstraints gbc_viewButton = new GridBagConstraints();
+			gbc_viewButton.gridx = 2;
+			gbc_viewButton.gridy = 0;
+			panelResult.add(viewButton, gbc_viewButton);
+		}
 	}
 	public void panelMethod(){
 		panel = new JPanel();
