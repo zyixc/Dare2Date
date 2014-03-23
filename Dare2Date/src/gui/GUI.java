@@ -1,5 +1,7 @@
 package gui;
 
+import global.GlobalVariables;
+
 import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -26,6 +28,8 @@ import javax.swing.event.InternalFrameEvent;
 import java.awt.BorderLayout;
 
 import javax.swing.JButton;
+
+import account.VIPSubscriber;
 
 import java.awt.Insets;
 import java.awt.event.ActionListener;
@@ -73,7 +77,11 @@ public class GUI {
 	private final JMenuItem mntmSearch_AgeMatch = new JMenuItem("AgeMatch");
 	private final JMenuItem mntmSearch_FullMatch = new JMenuItem("FullMatch");
 	private final JMenuItem mntmSearch_LocationMatch = new JMenuItem("LocationMatch");
-		
+	
+	ChatWindow windowChat;
+	
+	private VIPSubscriber vipsubscriber = TestProfile();
+	
 	/**
 	 * Launch the application.
 	 */
@@ -89,11 +97,24 @@ public class GUI {
 			}
 		});
 	}
-
+	
+	public VIPSubscriber TestProfile(){
+		GlobalVariables mVariables = GlobalVariables.getInstance();
+		VIPSubscriber p = mVariables.getCreateAccount().
+				generateVIPSubscriberProfile(mVariables.getCreateAccount().generateSubscriberProfile("test@gmail.com", "1234"));
+		p.setFirstName("Yoda");
+		p.setGender("Male");
+		p.setSexualPreference("Female");
+		
+		return p;
+	}
+	
 	/**
 	 * Create the application.
 	 */
 	public GUI() {
+		
+		
 		initialize();
 	}
 
@@ -107,9 +128,9 @@ public class GUI {
 		frmDaredate.setBounds(0,0,724,628);
 		frmDaredate.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //change to hide_on_close
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0,0};
+		gridBagLayout.columnWidths = new int[]{0};
 		gridBagLayout.rowHeights = new int[] {0, 12};
-		gridBagLayout.columnWeights = new double[]{7.0, 1.0};
+		gridBagLayout.columnWeights = new double[]{1.0};
 		gridBagLayout.rowWeights = new double[]{1.0, 0};
 		
 		frmDaredate.getContentPane().setLayout(gridBagLayout);	
@@ -117,7 +138,7 @@ public class GUI {
 		
 		
 		init_menuBar();
-		side();
+		//side();
 		bottom();
 		center();
 		chatWindow();
@@ -130,18 +151,6 @@ public class GUI {
 	}
 	private void menuBar_optionsMenu(){
 		menuBar.add(optionsMenu);
-		
-		JMenuItem mntmEditProfile = new JMenuItem("Edit Profile");
-		optionsMenu.add(mntmEditProfile);
-		
-		JMenuItem mntmOptios = new JMenuItem("Options");
-		optionsMenu.add(mntmOptios);
-		
-		JMenuItem mntmNewMenuItem = new JMenuItem("Exit");
-		optionsMenu.add(mntmNewMenuItem);
-	}
-	private void menuBar_searchMenu(){
-		menuBar.add(searchMenu);
 		
 		JMenuItem mntmMenu_EditProfile = new JMenuItem("Edit Profile");
 		optionsMenu.add(mntmMenu_EditProfile);
@@ -162,6 +171,14 @@ public class GUI {
 			}
 		});
 		optionsMenu.add(mntmMenu_Exit);
+		
+	}
+	private void menuBar_searchMenu(){
+		menuBar.add(searchMenu);
+		
+		searchMenu.add(mntmSearch_AgeMatch);
+		searchMenu.add(mntmSearch_FullMatch);
+		searchMenu.add(mntmSearch_LocationMatch);
 	}
 	
 	private void side(){
@@ -251,7 +268,7 @@ public class GUI {
 	}
 	
 	private void chatWindow(){		
-		ChatWindow windowChat = new ChatWindow();
+		windowChat = new ChatWindow(vipsubscriber);
 		internalFrame.getContentPane().add(windowChat);
 		windowChat.setVisible(true);		
 		internalFrame.setBorder(null);
@@ -306,8 +323,15 @@ public class GUI {
 	private void panel_home(){
 		((javax.swing.plaf.basic.BasicInternalFrameUI)internalFrameCenter.getUI()).setNorthPane(null);
 		internalFrameCenter.setBorder(null);
-		windowCenter = new CenterWindow();
+		windowCenter = new CenterWindow(vipsubscriber,GUI.this);
 		internalFrameCenter.getContentPane().add(windowCenter);
 		windowCenter.setVisible(true);
+	}
+		
+	public void newChatTab(VIPSubscriber toSubscriber){
+		windowChat.newTab(toSubscriber);
+		internalFrame.setVisible(true);
+		btnChat.setSelected(true);
+		state_pressed = true;
 	}
 }

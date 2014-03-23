@@ -12,31 +12,34 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTabbedPane;
 
+import account.Profile;
+import account.VIPSubscriber;
+
 
 public class ChatWindow extends JPanel {
 	private JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 	
+	
+	Profile currentUser;
+	
 	/**
 	 * Create the panel.
 	 */
-	public ChatWindow() {
+	public ChatWindow(Profile user) {
 		setLayout(new BorderLayout(0, 0));
 		add(tabbedPane, BorderLayout.CENTER);
-		newTab("TestSubject"); //temp
-		newTab("Dummy");
-		newTab("Dumm0000");
-
+		this.currentUser = user;
+	
+		//receiveMessagE?
 	}
 	
-	public void newTab(String toUser){
+	public void newTab(VIPSubscriber toUser){
 		JPanel panel = new JPanel();
 		final TextArea textArea = new TextArea(5,30);
 		JScrollPane scrollPane = new JScrollPane(textArea);
 		final JTextField textField = new JTextField();
 		
-		final String username = "TestUSER";
-		
-		tabbedPane.addTab(toUser, null, panel, null);
+		tabbedPane.addTab(toUser.getEmail(), null, panel, null);
 		panel.setLayout(new BorderLayout(0, 0));
 		
 		panel.add(scrollPane);
@@ -46,7 +49,9 @@ public class ChatWindow extends JPanel {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
 				if(arg0.getKeyCode() == KeyEvent.VK_ENTER){
-					String message = buildMessage(username,textField.getText());
+					//currentUser.sendMessage(textField.getText()); TODO
+					
+					String message = buildMessage(currentUser.getEmail(),textField.getText());
 					textArea.append(message);
 					textField.setText("");
 					textArea.repaint();

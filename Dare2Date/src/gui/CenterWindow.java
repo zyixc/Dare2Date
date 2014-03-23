@@ -6,9 +6,7 @@ import global.GlobalVariables;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -20,43 +18,66 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
-import account.Subscriber;
 import account.VIPSubscriber;
 
 import java.awt.Panel;
-import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
+import javax.swing.border.LineBorder;
+
+import java.awt.Color;
 
 public class CenterWindow extends JPanel {
 
 	/**
 	 * Create the panel.
 	 */
-
+	GUI referencedGUI;
+	
 	JPanel panelHome;
 	JPanel panelSearch;
 	JPanel panel;
 	
-	public CenterWindow() {
+	JLabel nameResult = new JLabel("Loading...");
+	JLabel sexResult = new JLabel("Loading...");
+	JLabel lookingforResult = new JLabel("Loading...");
+	JLabel ageResult = new JLabel("Loading..."); 
+	
+	VIPSubscriber currentSubscriber;
+	
+	public CenterWindow(VIPSubscriber profile_init, GUI thisGUI) {
 		setLayout(new CardLayout(0, 0));
+		this.referencedGUI = thisGUI;
 		
-		initInterface();
 		panelHomeMethod();
 		panelSearchMethod();
-		panelMethod();		
+		panelMethod();
+		setProfile(profile_init);
 	}
 	
-	public void initInterface(){
-		GlobalVariables mVariables = GlobalVariables.getInstance();
-		Subscriber visitor = mVariables.getCreateAccount().generateSubscriberProfile("test@gmail.com", "1234");
-		mVariables.setCurrentUser(visitor);
-		visitor.setfirstName("This is the firstname");
+	public void setProfile(VIPSubscriber temp_currentSubscriber){
+		if(currentSubscriber == null){
+			GlobalVariables mVariables = GlobalVariables.getInstance();
+			temp_currentSubscriber = mVariables.getCreateAccount().
+					generateVIPSubscriberProfile(mVariables.getCreateAccount().generateSubscriberProfile("test@gmail.com", "1234"));
+			temp_currentSubscriber.setFirstName("Yoda");
+			temp_currentSubscriber.setGender("Male");
+			temp_currentSubscriber.setSexualPreference("Female");
+		}
+		
+		this.currentSubscriber = temp_currentSubscriber;
+		nameResult.setText(currentSubscriber.getFirstName()); //TODO 2 getfirstName() ?
+		sexResult.setText(currentSubscriber.getGender());
+		lookingforResult.setText(currentSubscriber.getSexualPreference());
+		ageResult.setText("212"); //TODO has to be implemented ?
+		panelHome.revalidate();
 	}
 	
 	public void panelHomeMethod(){
@@ -64,9 +85,10 @@ public class CenterWindow extends JPanel {
 		add(panelHome, "name_30085133803200");
 		panelHome.setLayout(new BorderLayout(0, 0));
 		
+		//Picture Loading + Resizing
 		final BufferedImage image;
 		try {
-			image = ImageIO.read(new File("/home/zyixc/git/Dare2Date/Dare2Date/src/gui/questionmark.jpg"));
+			image = ImageIO.read(new File("src/gui/yoda.jpg"));
 			JPanel picturePanel = new JPanel(){
 	            @Override
 	            protected void paintComponent(Graphics g) {
@@ -82,15 +104,17 @@ public class CenterWindow extends JPanel {
 		}
 		
 		JPanel centerPanel = new JPanel();
+		centerPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		GridBagLayout gbl_centerPanel = new GridBagLayout();
 		gbl_centerPanel.columnWidths = new int[]{0, 0};
 		gbl_centerPanel.rowHeights = new int[]{0, 0, 0, 0, 0};
 		gbl_centerPanel.columnWeights = new double[]{1.0,1.0};
 		gbl_centerPanel.rowWeights = new double[]{1.0,1.0,1.0,1.0,1.0};
 		centerPanel.setLayout(gbl_centerPanel);
+		
+		//R
 		JLabel name = new JLabel("Name");
 		name.setHorizontalAlignment(SwingConstants.CENTER);
-		
 		GridBagConstraints gbc_name = new GridBagConstraints();
 		gbc_name.fill = GridBagConstraints.BOTH;
 		gbc_name.insets = new Insets(0, 0, 5, 5);
@@ -98,12 +122,13 @@ public class CenterWindow extends JPanel {
 		gbc_name.gridy = 0;
 		centerPanel.add(name, gbc_name);
 		
-		JLabel nameResult = new JLabel("New label");
 		GridBagConstraints gbc_nameResult = new GridBagConstraints();
 		gbc_nameResult.insets = new Insets(0, 0, 5, 0);
 		gbc_nameResult.gridx = 1;
 		gbc_nameResult.gridy = 0;
 		centerPanel.add(nameResult, gbc_nameResult);
+		
+		//R
 		JLabel sex = new JLabel("Sex");
 		sex.setHorizontalAlignment(SwingConstants.CENTER);
 		GridBagConstraints gbc_sex = new GridBagConstraints();
@@ -113,12 +138,13 @@ public class CenterWindow extends JPanel {
 		gbc_sex.gridy = 1;
 		centerPanel.add(sex, gbc_sex);
 		
-		JLabel sexResult = new JLabel("New label");
 		GridBagConstraints gbc_sexResult = new GridBagConstraints();
 		gbc_sexResult.insets = new Insets(0, 0, 5, 0);
 		gbc_sexResult.gridx = 1;
 		gbc_sexResult.gridy = 1;
 		centerPanel.add(sexResult, gbc_sexResult);
+		
+		//R
 		JLabel lookingfor = new JLabel("LookingFor");
 		lookingfor.setHorizontalAlignment(SwingConstants.CENTER);
 		GridBagConstraints gbc_lookingfor = new GridBagConstraints();
@@ -128,12 +154,13 @@ public class CenterWindow extends JPanel {
 		gbc_lookingfor.gridy = 2;
 		centerPanel.add(lookingfor, gbc_lookingfor);
 		
-		JLabel lookingforResult = new JLabel("New label");
 		GridBagConstraints gbc_lookingforResult = new GridBagConstraints();
 		gbc_lookingforResult.insets = new Insets(0, 0, 5, 0);
 		gbc_lookingforResult.gridx = 1;
 		gbc_lookingforResult.gridy = 2;
 		centerPanel.add(lookingforResult, gbc_lookingforResult);
+		
+		//R
 		JLabel age = new JLabel("Age");
 		age.setHorizontalAlignment(SwingConstants.CENTER);
 		GridBagConstraints gbc_age = new GridBagConstraints();
@@ -143,13 +170,20 @@ public class CenterWindow extends JPanel {
 		gbc_age.gridy = 3;
 		centerPanel.add(age, gbc_age);
 		
-		JLabel ageResult = new JLabel("New label");
 		GridBagConstraints gbc_ageResult = new GridBagConstraints();
 		gbc_ageResult.insets = new Insets(0, 0, 5, 0);
 		gbc_ageResult.gridx = 1;
 		gbc_ageResult.gridy = 3;
 		centerPanel.add(ageResult, gbc_ageResult);
-		JButton message = new JButton("Message");
+		
+		//Message Button
+		final JButton message = new JButton("Message");
+		message.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				 referencedGUI.newChatTab(currentSubscriber);
+			}
+		});
+		
 		GridBagConstraints gbc_message = new GridBagConstraints();
 		gbc_message.gridwidth = 2;
 		gbc_message.gridx = 0;
@@ -182,7 +216,7 @@ public class CenterWindow extends JPanel {
 		//Start user loading
 		ArrayList<VIPSubscriber> vipList = GeneratedUsers.generateRandomVIP();
 		int i = 0;
-		for(VIPSubscriber temp: vipList){
+		for(final VIPSubscriber temp: vipList){
 					
 			JPanel panelResult = new JPanel();
 			GridBagConstraints gbc_panelResult = new GridBagConstraints();
@@ -202,7 +236,7 @@ public class CenterWindow extends JPanel {
 		
 			final BufferedImage image;
 			try {
-				image = ImageIO.read(new File("/home/zyixc/git/Dare2Date/Dare2Date/src/gui/questionmark.jpg"));
+				image = ImageIO.read(new File("src/gui/yoda.jpg"));
 				JPanel picturePanel = new JPanel(){
 					@Override
 					protected void paintComponent(Graphics g) {
@@ -230,7 +264,10 @@ public class CenterWindow extends JPanel {
 			JButton viewButton = new JButton("view");
 			viewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					
+					setProfile(temp);
+					panelHome.setVisible(true);
+					panelSearch.setVisible(false);
+					panel.setVisible(false);
 				}
 			});
 			GridBagConstraints gbc_viewButton = new GridBagConstraints();
@@ -250,5 +287,4 @@ public class CenterWindow extends JPanel {
 		panel.setLayout(gbl_panel);
 
 	}
-
 }
