@@ -33,6 +33,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.border.LineBorder;
 
 import java.awt.Color;
+import java.awt.Font;
 
 public class CenterWindow extends JPanel {
 
@@ -52,9 +53,12 @@ public class CenterWindow extends JPanel {
 	
 	VIPSubscriber currentSubscriber;
 	
+	ArrayList<VIPSubscriber> vipList = GeneratedUsers.generateRandomVIP();
+	
 	public CenterWindow(VIPSubscriber profile_init, GUI thisGUI) {
 		setLayout(new CardLayout(0, 0));
 		this.referencedGUI = thisGUI;
+		this.currentSubscriber = profile_init;
 		
 		panelHomeMethod();
 		panelSearchMethod();
@@ -62,20 +66,15 @@ public class CenterWindow extends JPanel {
 		setProfile(profile_init);
 	}
 	
-	public void setProfile(VIPSubscriber temp_currentSubscriber){
-		if(currentSubscriber == null){
-			GlobalVariables mVariables = GlobalVariables.getInstance();
-			temp_currentSubscriber = mVariables.getCreateAccount().
-					generateVIPSubscriberProfile(mVariables.getCreateAccount().generateSubscriberProfile("test@gmail.com", "1234"));
-			temp_currentSubscriber.setFirstName("Yoda");
-			temp_currentSubscriber.setGender("Male");
-			temp_currentSubscriber.setSexualPreference("Female");
-		}
-		
+	public void setProfile(VIPSubscriber temp_currentSubscriber){	
 		this.currentSubscriber = temp_currentSubscriber;
+		nameResult.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		nameResult.setText(currentSubscriber.getFirstName()); //TODO 2 getfirstName() ?
+		sexResult.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		sexResult.setText(currentSubscriber.getGender());
+		lookingforResult.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lookingforResult.setText(currentSubscriber.getSexualPreference());
+		ageResult.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		ageResult.setText("212"); //TODO has to be implemented ?
 		panelHome.revalidate();
 	}
@@ -88,7 +87,11 @@ public class CenterWindow extends JPanel {
 		//Picture Loading + Resizing
 		final BufferedImage image;
 		try {
-			image = ImageIO.read(new File("src/gui/yoda.jpg"));
+			if(currentSubscriber.getFirstName().equals("Darth-Vader")){
+				image = ImageIO.read(new File("src/gui/darthvader.jpg"));
+			}else{
+				image = ImageIO.read(new File("src/gui/yoda.jpg"));
+			}
 			JPanel picturePanel = new JPanel(){
 	            @Override
 	            protected void paintComponent(Graphics g) {
@@ -114,6 +117,7 @@ public class CenterWindow extends JPanel {
 		
 		//R
 		JLabel name = new JLabel("Name");
+		name.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		name.setHorizontalAlignment(SwingConstants.CENTER);
 		GridBagConstraints gbc_name = new GridBagConstraints();
 		gbc_name.fill = GridBagConstraints.BOTH;
@@ -130,6 +134,7 @@ public class CenterWindow extends JPanel {
 		
 		//R
 		JLabel sex = new JLabel("Sex");
+		sex.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		sex.setHorizontalAlignment(SwingConstants.CENTER);
 		GridBagConstraints gbc_sex = new GridBagConstraints();
 		gbc_sex.fill = GridBagConstraints.BOTH;
@@ -146,6 +151,7 @@ public class CenterWindow extends JPanel {
 		
 		//R
 		JLabel lookingfor = new JLabel("LookingFor");
+		lookingfor.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lookingfor.setHorizontalAlignment(SwingConstants.CENTER);
 		GridBagConstraints gbc_lookingfor = new GridBagConstraints();
 		gbc_lookingfor.fill = GridBagConstraints.BOTH;
@@ -162,6 +168,7 @@ public class CenterWindow extends JPanel {
 		
 		//R
 		JLabel age = new JLabel("Age");
+		age.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		age.setHorizontalAlignment(SwingConstants.CENTER);
 		GridBagConstraints gbc_age = new GridBagConstraints();
 		gbc_age.fill = GridBagConstraints.BOTH;
@@ -214,7 +221,7 @@ public class CenterWindow extends JPanel {
 		panelSearch.setLayout(gbl_panelSearch);
 		
 		//Start user loading
-		ArrayList<VIPSubscriber> vipList = GeneratedUsers.generateRandomVIP();
+		
 		int i = 0;
 		for(final VIPSubscriber temp: vipList){
 					
@@ -224,6 +231,7 @@ public class CenterWindow extends JPanel {
 			gbc_panelResult.gridx = 0;
 			gbc_panelResult.gridy = i;
 			i++;
+			if(i>5){ break; }
 			gbc_panelResult.fill = GridBagConstraints.BOTH;
 			panelSearch.add(panelResult, gbc_panelResult);
 			
@@ -236,7 +244,11 @@ public class CenterWindow extends JPanel {
 		
 			final BufferedImage image;
 			try {
-				image = ImageIO.read(new File("src/gui/yoda.jpg"));
+				if(currentSubscriber.getFirstName().equals("Darth-Vader")){
+					image = ImageIO.read(new File("src/gui/darthvader.jpg"));
+				}else{
+					image = ImageIO.read(new File("src/gui/yoda.jpg"));
+				}
 				JPanel picturePanel = new JPanel(){
 					@Override
 					protected void paintComponent(Graphics g) {
@@ -256,6 +268,7 @@ public class CenterWindow extends JPanel {
 			}
 
 			JLabel name = new JLabel(temp.getFirstName());
+			name.setFont(new Font("Tahoma", Font.PLAIN, 20));
 			GridBagConstraints gbc_name = new GridBagConstraints();
 			gbc_name.insets = new Insets(0, 0, 0, 5);
 			gbc_name.gridx = 1;
@@ -280,11 +293,84 @@ public class CenterWindow extends JPanel {
 		panel = new JPanel();
 		add(panel, "name_30088251608510");
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{0};
-		gbl_panel.rowHeights = new int[]{0};
-		gbl_panel.columnWeights = new double[]{Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{Double.MIN_VALUE};
+		gbl_panel.columnWidths = new int[]{0,0,0,0};
+		gbl_panel.rowHeights = new int[]{0,0,0,0,0,0,0,0};
+		gbl_panel.columnWeights = new double[]{1,1,1,1};
+		gbl_panel.rowWeights = new double[]{1,1,1,1,1,1,1,1};
 		panel.setLayout(gbl_panel);
+		
+		JButton btnLoadProfile1 = new JButton("LoadProfile1");
+		btnLoadProfile1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				VIPSubscriber temp = referencedGUI.TestProfile(1);
+				referencedGUI.setProfile(temp);
+				setProfile(temp);
+			}
+		});
+		GridBagConstraints gbc_btnLoadProfile1 = new GridBagConstraints();
+		gbc_btnLoadProfile1.gridwidth = 2;
+		gbc_btnLoadProfile1.insets = new Insets(0, 0, 5, 5);
+		gbc_btnLoadProfile1.gridx = 1;
+		gbc_btnLoadProfile1.gridy = 1;
+		panel.add(btnLoadProfile1, gbc_btnLoadProfile1);
+		
+		JButton btnStartProfile1 = new JButton("Start Chat With Profile 1");
+		btnStartProfile1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				referencedGUI.windowChat.newTab(referencedGUI.TestProfile(1));
+			}
+		});
+		GridBagConstraints gbc_btnStartProfile1 = new GridBagConstraints();
+		gbc_btnStartProfile1.gridwidth = 2;
+		gbc_btnStartProfile1.insets = new Insets(0, 0, 5, 5);
+		gbc_btnStartProfile1.gridx = 1;
+		gbc_btnStartProfile1.gridy = 2;
+		panel.add(btnStartProfile1, gbc_btnStartProfile1);
+		
+		JButton btnLoadProfile2 = new JButton("LoadProfile2");
+		btnLoadProfile2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VIPSubscriber temp = referencedGUI.TestProfile(2);
+				referencedGUI.setProfile(temp);
+				setProfile(temp);
+				panelHome.removeAll();
+				panelHomeMethod();
+			}
+		});
+		GridBagConstraints gbc_btnLoadProfile2 = new GridBagConstraints();
+		gbc_btnLoadProfile2.gridwidth = 2;
+		gbc_btnLoadProfile2.insets = new Insets(0, 0, 5, 5);
+		gbc_btnLoadProfile2.gridx = 1;
+		gbc_btnLoadProfile2.gridy = 3;
+		panel.add(btnLoadProfile2, gbc_btnLoadProfile2);
+		
+		JButton btnStartProfile2 = new JButton("Start Chat With Profile 2");
+		btnStartProfile2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				referencedGUI.windowChat.newTab(referencedGUI.TestProfile(2));
+				referencedGUI.windowChat.setVisible(true);
+			}
+		});
+		GridBagConstraints gbc_btnStartProfile2 = new GridBagConstraints();
+		gbc_btnStartProfile2.gridwidth = 2;
+		gbc_btnStartProfile2.insets = new Insets(0, 0, 5, 5);
+		gbc_btnStartProfile2.gridx = 1;
+		gbc_btnStartProfile2.gridy = 4;
+		panel.add(btnStartProfile2, gbc_btnStartProfile2);
+		
+		JButton btnNewButton = new JButton("StartChatServer //becarefull");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//startChatServer
+			}
+		});
+		btnNewButton.setEnabled(false);
+		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
+		gbc_btnNewButton.gridwidth = 2;
+		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
+		gbc_btnNewButton.gridx = 1;
+		gbc_btnNewButton.gridy = 6;
+		panel.add(btnNewButton, gbc_btnNewButton);
 
 	}
 }

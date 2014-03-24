@@ -54,7 +54,7 @@ public class ChatWindow extends JPanel {
 					String message = buildMessage(currentUser.getEmail(),textField.getText());
 					textArea.append(message);
 					textField.setText("");
-					textArea.repaint();
+					//textArea.repaint();
 				}
 			}
 		});

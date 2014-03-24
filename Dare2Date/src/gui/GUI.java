@@ -61,26 +61,28 @@ public class GUI {
 	private boolean state_pressed = false;
 	
 	//side
-	private final JPanel panelSide = new JPanel();	
+	//private final JPanel panelSide = new JPanel();	
 	
 	//center
 	private final JDesktopPane desktopPane = new JDesktopPane();
-	private final JInternalFrame internalFrame = new JInternalFrame("Chat",false,false,false,false);
+	public final JInternalFrame internalFrame = new JInternalFrame("Chat",false,false,false,false);
 	private final JInternalFrame internalFrameCenter = new JInternalFrame("New JInternalFrame",false,false,false,false);
 	//main
 	private final JButton btnPanelHome = new JButton("Home Panel");
 	private final JButton btnPanelSearch = new JButton("Search Panel");
-	private final JButton btnNewButton_2 = new JButton("Panel");
+	private final JButton btnNewButton_2 = new JButton("<<PanelAdmin>>");
 	
 	//center
 	private CenterWindow windowCenter;
 	private final JMenuItem mntmSearch_AgeMatch = new JMenuItem("AgeMatch");
 	private final JMenuItem mntmSearch_FullMatch = new JMenuItem("FullMatch");
 	private final JMenuItem mntmSearch_LocationMatch = new JMenuItem("LocationMatch");
+	private final JMenuItem mntmSearch_SelectionMatch = new JMenuItem("SelectionMatch");
 	
 	ChatWindow windowChat;
 	
-	private VIPSubscriber vipsubscriber = TestProfile();
+	private VIPSubscriber vipsubscriber = TestProfile(1);
+	private final JMenuItem mntmMenu_Home = new JMenuItem("Home");
 	
 	/**
 	 * Launch the application.
@@ -98,30 +100,34 @@ public class GUI {
 		});
 	}
 	
-	public VIPSubscriber TestProfile(){
+	public VIPSubscriber TestProfile(int number){
 		GlobalVariables mVariables = GlobalVariables.getInstance();
-		VIPSubscriber p = mVariables.getCreateAccount().
-				generateVIPSubscriberProfile(mVariables.getCreateAccount().generateSubscriberProfile("test@gmail.com", "1234"));
-		p.setFirstName("Yoda");
-		p.setGender("Male");
-		p.setSexualPreference("Female");
+		VIPSubscriber p;
 		
+		if(number == 1){
+			p = mVariables.getCreateAccount().
+				generateVIPSubscriberProfile(mVariables.getCreateAccount().generateSubscriberProfile("testYoda@gmail.com", "1234"));
+			p.setFirstName("Yoda");
+			p.setGender("Male");
+			p.setSexualPreference("Female");
+		}else{
+			p = mVariables.getCreateAccount().
+				generateVIPSubscriberProfile(mVariables.getCreateAccount().generateSubscriberProfile("testDarthVader@gmail.com", "1234"));
+			p.setFirstName("Darth-Vader");
+			p.setGender("Unknown");
+			p.setSexualPreference("Yoda");
+		}
 		return p;
+	}
+	
+	public void setProfile(VIPSubscriber tempvipsubscriber){ //admin option
+		this.vipsubscriber = tempvipsubscriber;
 	}
 	
 	/**
 	 * Create the application.
 	 */
 	public GUI() {
-		
-		
-		initialize();
-	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
 		internalFrameCenter.setVisible(true);
 		frmDaredate = new JFrame();
 		frmDaredate.setTitle("Dare2Date");
@@ -135,8 +141,6 @@ public class GUI {
 		
 		frmDaredate.getContentPane().setLayout(gridBagLayout);	
 		
-		
-		
 		init_menuBar();
 		//side();
 		bottom();
@@ -149,13 +153,27 @@ public class GUI {
 		menuBar_optionsMenu();
 		menuBar_searchMenu();
 	}
+	
 	private void menuBar_optionsMenu(){
 		menuBar.add(optionsMenu);
+		mntmMenu_Home.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				windowCenter.setProfile(vipsubscriber);
+				
+				windowCenter.panelHome.setVisible(true);
+				windowCenter.panelSearch.setVisible(false);
+				windowCenter.panel.setVisible(false);
+			}
+		});
+		
+		optionsMenu.add(mntmMenu_Home);
 		
 		JMenuItem mntmMenu_EditProfile = new JMenuItem("Edit Profile");
+		mntmMenu_EditProfile.setEnabled(false);
 		optionsMenu.add(mntmMenu_EditProfile);
 		
 		JMenuItem mntmMenu_Options = new JMenuItem("Options");
+		mntmMenu_Options.setEnabled(false);
 		mntmMenu_Options.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, "not implemented yet", "InfoBox: " + "?", JOptionPane.INFORMATION_MESSAGE);
@@ -173,23 +191,60 @@ public class GUI {
 		optionsMenu.add(mntmMenu_Exit);
 		
 	}
+	
 	private void menuBar_searchMenu(){
 		menuBar.add(searchMenu);
 		
 		searchMenu.add(mntmSearch_AgeMatch);
-		searchMenu.add(mntmSearch_FullMatch);
+		mntmSearch_AgeMatch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//windowCenter.vipList = TODO "getResultMatchmakingType";
+				setCorrectPanel();
+			}
+		});
+		
 		searchMenu.add(mntmSearch_LocationMatch);
+		mntmSearch_LocationMatch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//windowCenter.vipList = TODO "getResultMatchmakingType";
+				setCorrectPanel();
+			}
+		});
+		
+		searchMenu.add(mntmSearch_SelectionMatch);
+		mntmSearch_SelectionMatch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//windowCenter.vipList = TODO "getResultMatchmakingType";
+				setCorrectPanel();
+			}
+		});
+		
+		searchMenu.add(mntmSearch_FullMatch);
+		mntmSearch_FullMatch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//windowCenter.vipList = TODO "getResultMatchmakingType";
+				setCorrectPanel();
+			}
+		});
 	}
 	
-	private void side(){
-		GridBagConstraints gbc_panelSide = new GridBagConstraints();
-		gbc_panelSide.gridheight = 2;
-		gbc_panelSide.fill = GridBagConstraints.BOTH;
-		gbc_panelSide.gridx = 1;
-		gbc_panelSide.gridy = 0;
-		panelSide.setBorder(null);
-		frmDaredate.getContentPane().add(panelSide, gbc_panelSide);
+	private void setCorrectPanel(){
+		windowCenter.panelHome.setVisible(false);
+		windowCenter.panelSearch.setVisible(true);
+		windowCenter.panel.setVisible(false);
+		
+		windowCenter.panelSearch.revalidate();
 	}
+	
+//	private void side(){
+//		GridBagConstraints gbc_panelSide = new GridBagConstraints();
+//		gbc_panelSide.gridheight = 2;
+//		gbc_panelSide.fill = GridBagConstraints.BOTH;
+//		gbc_panelSide.gridx = 1;
+//		gbc_panelSide.gridy = 0;
+//		panelSide.setBorder(null);
+//		frmDaredate.getContentPane().add(panelSide, gbc_panelSide);
+//	}
 	private void bottom(){
 		GridBagConstraints gbc_panelBottom = new GridBagConstraints();
 		gbc_panelBottom.fill = GridBagConstraints.BOTH;
